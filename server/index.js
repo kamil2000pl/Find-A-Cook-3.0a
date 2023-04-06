@@ -8,6 +8,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const categoryRoutes = require('./routes/category');
 const cookRoutes = require('./routes/cook');
+const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
 const filterRoutes = require('./routes/filter');
 // const subscriptionController = require('./routes/subscribe')
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/category', categoryRoutes);
 app.use('/api/cook', cookRoutes);
+app.use('/api/user', userRoutes);
 // app.use('/api/subscribe', subscriptionController);
 app.use('/api/product', productRoutes);
 app.use('/uploads', express.static('uploads'));
@@ -48,8 +50,8 @@ app.post('/create_checkout_link', async (request, response) => {
             },
         ],
         mode: 'subscription',
-        success_url: `http://localhost:3000/paymentsuccessful/?success=true`,
-        cancel_url: `http://localhost:3000/paymentunsuccessful/?canceled=true`,
+        success_url: `http://localhost:3002/paymentsuccessful/?success=true`,
+        cancel_url: `http://localhost:3002/paymentunsuccessful/?canceled=true`,
         customer: customerId
     });
     console.log(session);

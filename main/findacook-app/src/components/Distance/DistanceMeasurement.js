@@ -3,6 +3,7 @@ import axios from "axios";
 import Geocode from "react-geocode";
 import { useDispatch } from "react-redux";
 import { getCooks } from "../../redux/actions/cookActions";
+import { getCurrentUser } from "../../redux/actions/userActions";
 import { useSelector } from 'react-redux';
 
 
@@ -15,7 +16,7 @@ const DistanceMeasurement = () => {
     // const { userLat, userLng } = { 53.707785, -6.336063 };
     // const { lat, lng } = {};
 
-    
+
 
     var lat
     var lng
@@ -26,9 +27,9 @@ const DistanceMeasurement = () => {
     Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_KEY);
     
   
-    // useEffect(() => {
-    //   fetchCooks();
-    // }, []);
+    useEffect(() => {
+      fetchAddress();
+    }, []);
 
     // const fetchCooks = async () => {
     //   try {
@@ -48,50 +49,87 @@ const DistanceMeasurement = () => {
     const {cooks} = useSelector(state => state.cooks)
     console.log('cool1', cooks)
 
+  //   useEffect(() => {
+  //     dispatch(getCurrentUser())
+  // }, [dispatch])
+
+  // const {userAddy} = useSelector(state => state.user)
+  //   console.log('cool5', userAddy)
+
 
     //      HERE'S THE CODE TO GET USERS ADDRESS
-    //
-    // const [userAddress, setAddress] = useState("")
-    // axios.defaults.withCredentials = true
-    // useEffect(()=> {
-    //     axios.get('http://localhost:5001/user/useraddress')
-    //     .then((res) => {
-    //         setAddress(res.data.message);
-    //     })
-    //     .catch((err) => {
-    //         console.error(err);
-    //     });
-    // }, [])
+    
+    const [userAddress, setAddress] = useState("")
+
+  //   const fetchAddress = async () => {
+  //     try {
+  //     axios.defaults.withCredentials = true
+  //     useEffect(()=> {
+  //         axios.get('http://localhost:5001/user/userinfo')
+  //         .then((res) => {
+  //             setAddress(res.data.message);
+  //             console.log("USERS ADDRESS = " + userAddress)
+  //         })
+  //         .catch((err) => {
+  //             console.error(err);
+  //         });
+  //     }, [])
+  // };
+  
+
+  // const options = {
+  //   method: "POST",
+  //   headers: {
+  //     "content-type": "application/json",
+  //   },
+  //   credentials: "include",
+  // };
+  
+  // fetch("http://localhost:5001/user/useraddress", options)
+  // .then((res) => res.json())
+  // .then((data) => {
+  //   console.log(data + "heres the data");
+  // });
+
+      const fetchAddress = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/user/useraddress");
+        setAddress(response.data.message);
+        console.log(response.data.message + " - testing")
+      } catch (error) {
+        console.error("Error fetching address:", error);
+      }
+    };
   
 
 
-    const userAddress = "6 Tower View, Stoney Lane, Ardee, Co. Louth"
+    // const userAddress = "6 Tower View, Stoney Lane, Ardee, Co. Louth"
     
     
 
-    Geocode.fromAddress({userAddress}).then(
-      (response) => {
-        userLat = response.results[0].geometry.location.lat;
-        userLng = response.results[0].geometry.location.lng;
-        console.log('coords1 = ' + lat + ' ' + lng);
-        // console.log('coords2 = ' + lat + ' ' + lng);
-      },
-      (error) => {
-        console.error(error);
-      }
-    )
+    // Geocode.fromAddress({userAddress}).then(
+    //   (response) => {
+    //     userLat = response.results[0].geometry.location.lat;
+    //     userLng = response.results[0].geometry.location.lng;
+    //     console.log('coords1 = ' + lat + ' ' + lng);
+    //     // console.log('coords2 = ' + lat + ' ' + lng);
+    //   },
+    //   (error) => {
+    //     console.error(error);
+    //   }
+    // )
 
     cooks.forEach( cook => {
-      Geocode.fromAddress(cook.cook_address).then(
-        (response) => {
-          lat = response.results[0].geometry.location.lat;
-          lng = response.results[0].geometry.location.lng;
-          console.log('coords1 = ' + lat + ' ' + lng);
-        },
-        (error) => {
-          console.error(error);
-        }
-      )
+      // Geocode.fromAddress(cook.cook_address).then(
+      //   (response) => {
+      //     lat = response.results[0].geometry.location.lat;
+      //     lng = response.results[0].geometry.location.lng;
+      //     console.log('coords1 = ' + lat + ' ' + lng);
+      //   },
+      //   (error) => {
+      //     console.error(error);
+      //   }
+      // )
 
       
 

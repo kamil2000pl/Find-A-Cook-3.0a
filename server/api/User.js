@@ -10,7 +10,7 @@ require('dotenv').config();
 
 //const cookieParser = require('cookie-parser');
 
-//const session = require('express-session');
+const session = require('express-session');
 
 const bcrypt = require('bcrypt');
 const path = require("path");
@@ -316,6 +316,23 @@ router.get("/userinfo", (req, res) => {
         res.json({
             status: "FAILED",
             message: "ERROR",
+        })
+    }
+});
+
+router.get("/useraddress", (req, res) => {
+    console.log(req.session + "here is my test")
+    console.log("/useraddress is running")
+    const user = req.session.user;
+    if(user) {
+        res.json({
+            status: "SUCCESS",
+            message: `${user.user_address}`
+        })
+    } else {
+        res.json({
+            status: "FAILED",
+            message: user,
         })
     }
 });

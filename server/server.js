@@ -9,17 +9,6 @@ require('./config/db')
 const UserRouter = require('./api/User');
 const CookRouter = require('./api/Cook')
 
-
-const bodyParser = require('express').json;
-app.use(bodyParser());
-app.use(cors({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST"],
-    credentials: true
-}));
-
-//app.use(cookieParser());
-
 app.use(session({
     key: "userId",
     secret: "subscribe_to_findacook",
@@ -29,6 +18,17 @@ app.use(session({
         expires: 60 * 60 * 24,
     }
 }))
+
+const bodyParser = require('express').json;
+app.use(bodyParser());
+app.use(cors({
+    origin: ["http://localhost:3002"],
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+
+//app.use(cookieParser());
+
 
 
 app.use('/user', UserRouter)

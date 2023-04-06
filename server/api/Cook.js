@@ -1,9 +1,25 @@
 const express = require('express');
 const router = express.Router();
-
+const stripe = require('stripe')('sk_test_51MYbfMDYuzoeBKxGcMhrNfA5j9wjsN4QqBDDofXq7ZXgfJhZB1K5R9MrUQZAEGVdzUgxgFcLyzSWIXLgbtUSD2Fz00NY3BBAUN');
 const Cook = require('./../models/Cook')
 const nodemailer = require('nodemailer');
 const {v4:uuid} = require("uuid");
+//const upload = require('../middleware/multer');
+const MenuCategorySchema = require('./../models/MenuCategory');
+const MenuItemSchema = require('./../models/Menu')
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname);
+    },
+  });
+  
+  const upload = multer({ storage: storage });
+
 
 require('dotenv').config();
 
@@ -148,6 +164,8 @@ router.post('/cooksignin', (req, res) => {
 router.get("/cookinfo", (req, res) => {
     console.log(req.session)
     const cook = req.session.cook;
+    // console.log(cook);
+    console.log("cook acquired");
     if(cook) {
         res.json({
             status: "SUCCESS",
@@ -156,7 +174,8 @@ router.get("/cookinfo", (req, res) => {
             special: `${cook.specialties}`,
             descrip: `${cook.description}`,
             profile: `${cook.profile_picture}`,
-            bio: `${cook.cook_bio}`
+            bio: `${cook.cook_bio}`,
+            email: `${cook.cook_email}`
         })
     } else {
         res.json({
@@ -168,7 +187,7 @@ router.get("/cookinfo", (req, res) => {
 
 router.get("/allcooks", async (req, res) => {
     try {
-        const cooks = await Cook.find({}, { cook_first_name: 1, cook_last_name: 1, profile_picture: 1, application_status: 1, cook_bio: 1, description: 1, _id: 1,specialties: 1, cook_address: 1 });
+      const cooks = await Cook.find({}, { cook_first_name: 1, cook_last_name: 1, profile_picture: 1, application_status: 1, cook_bio: 1, description: 1, _id: 1,specialties: 1 });
   
       res.json({
         status: "SUCCESS",
@@ -178,6 +197,57 @@ router.get("/allcooks", async (req, res) => {
       res.json({
         status: "FAILED",
         message: "Error retrieving cooks",
+        error: err,
+      });
+    }
+  });
+  
+
+  router.get('/menucategories', async (req, res) => {
+    try {
+      const menuCategories = await MenuCategorySchema.find();
+      res.json({ status: 'SUCCESS', menuCategories });
+    } catch (err) {
+      res.json({ status: 'FAILED', message: 'Error retrieving menu categories' });
+      console.log(err);
+    }
+  });
+
+
+  router.post('/addmenuitem', upload.single('imageurls'), async (req, res) => {
+    console.log(req.files);
+    console.log(req.body);
+    const cook = req.session.cook;
+  
+    if (!cook) {
+      return res.json({
+        status: 'FAILED',
+        message: 'Not authorized to add menu items',
+      });
+    }
+  
+    const { item_name, product_description, price, category } = req.body;
+    const imageurls = req.file ? req.file.path : null;
+  
+    try {
+      const menuItem = new MenuItemSchema({
+        cook_id: cook._id,
+        item_name: item_name,
+        product_description: product_description,
+        category: category,
+        imageurls: imageurls,
+        price: price,
+      });
+  
+      await menuItem.save();
+      res.json({
+        status: 'SUCCESS',
+        message: 'Menu item added successfully',
+      });
+    } catch (err) {
+      res.json({
+        status: 'FAILED',
+        message: 'Error adding menu item',
         error: err,
       });
     }
@@ -223,7 +293,62 @@ router.put("/editprofile", (req, res) => {
     }
   });
 
+  router.post('/uploadprofilepicture', upload.single('profile_picture'), async (req, res) => {
+    const cook = req.session.cook;
+    
+    if (cook) {
+      const profile_picture = req.file.path;
+  
+      try {
+        await Cook.updateOne({ _id: cook._id }, { $set: { profile_picture } });
+        res.json({
+          status: 'SUCCESS',
+          message: 'Profile picture uploaded successfully',
+          imagePath: profile_picture,
+        });
+      } catch (err) {
+        res.json({
+          status: 'FAILED',
+          message: 'Error uploading profile picture',
+          error: err,
+        });
+      }
+    } else {
+      res.json({
+        status: 'FAILED',
+        message: 'Not authorized to upload profile picture',
+      });
+    }
+  });
+  
+  
 
+
+
+
+  
+  router.post('/verify_cook', async (req, res) => {
+    // Extract cook email from the request body
+    const { cook_email } = req.body;
+    if (!cook_email) {
+      // Return error if cook email is not provided
+      res.status(400).json({ success: false, message: 'Cook email is required' });
+    } else {
+      // Check if the cook email exists in the database
+      const cook = await Cook.findOne({ email: cook_email });
+      if (cook) {
+        // Update the verified field of the cook to true
+        await Cook.updateOne({ cook_email: cook_email },  {$set:{ verified: true }});
+        // Return success message if cook email is found and verified is updated to true
+        res.status(200).json({ success: true, message: 'Cook has been verified!' });
+      } else {
+        // Return error if cook email is not found in the database
+        res.status(400).json({ success: false, message: 'Cook not found in the database' });
+      }
+    }
+  });
+
+  
   
 
 module.exports = router;
