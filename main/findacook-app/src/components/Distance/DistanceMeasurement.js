@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { getCooks } from "../../redux/actions/cookActions";
 import { getCurrentUser } from "../../redux/actions/userActions";
 import { useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getUser } from '../../redux/actions/userActions'
 
 
 const DistanceMeasurement = () => {
@@ -26,10 +28,51 @@ const DistanceMeasurement = () => {
 
     Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_KEY);
     
+    const navigate = useNavigate();
+    const { userId } = useParams();
+    console.log('user id is here - ', userId)
+  
+    const dispatch = useDispatch();
+    
   
     useEffect(() => {
-      fetchAddress();
-    }, []);
+      dispatch(getUser(userId));
+    }, [dispatch, userId]);
+  
+    const { user } = useSelector(state => state.users);
+    console.log(user);
+    
+
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phonenumber, setPhoneNumber] = useState("");
+    const [address, setAddress] = useState("");
+    axios.defaults.withCredentials = true
+    useEffect(()=> {
+        axios.get('http://localhost:5001/user/userinfo')
+        .then((res) => {
+            setFirstName(res.data.firstn);
+            setLastName(res.data.lastn);
+            setPhoneNumber(res.data.phonenumber);
+            setEmail(res.data.email);
+            setAddress(res.data.address);
+            console.log(res.data.firstn + " - current user")
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }, [])
+  
+    console.log(firstname + " - current user")
+
+    console.log('test')
+
+
+  
+    // useEffect(() => {
+    //   fetchAddress();
+    // }, []);
 
     // const fetchCooks = async () => {
     //   try {
@@ -40,7 +83,7 @@ const DistanceMeasurement = () => {
     //   }
     // };
 
-    const dispatch = useDispatch();
+ 
 
     useEffect(() => {
         dispatch(getCooks())
@@ -48,6 +91,7 @@ const DistanceMeasurement = () => {
     
     const {cooks} = useSelector(state => state.cooks)
     console.log('cool1', cooks)
+
 
   //   useEffect(() => {
   //     dispatch(getCurrentUser())
@@ -59,7 +103,7 @@ const DistanceMeasurement = () => {
 
     //      HERE'S THE CODE TO GET USERS ADDRESS
     
-    const [userAddress, setAddress] = useState("")
+    // const [userAddress, setAddress] = useState("")
 
   //   const fetchAddress = async () => {
   //     try {
@@ -91,16 +135,17 @@ const DistanceMeasurement = () => {
   //   console.log(data + "heres the data");
   // });
 
-      const fetchAddress = async () => {
-      try {
-        const response = await axios.get("http://localhost:5001/user/useraddress");
-        setAddress(response.data.message);
-        console.log(response.data.message + " - testing")
-      } catch (error) {
-        console.error("Error fetching address:", error);
-      }
-    };
-  
+  //     const fetchAddress = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:5001/user/useraddress");
+  //       setAddress(response.data.message);
+  //       console.log(response.data.message + " - testing")
+  //     } catch (error) {
+  //       console.error("Error fetching address:", error);
+  //     }
+  //   };
+
+
 
 
     // const userAddress = "6 Tower View, Stoney Lane, Ardee, Co. Louth"
@@ -131,7 +176,6 @@ const DistanceMeasurement = () => {
       //   }
       // )
 
-      
 
       //Distance calculation
       Number.prototype.toRad = function() {

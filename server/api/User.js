@@ -320,6 +320,28 @@ router.get("/userinfo", (req, res) => {
     }
 });
 
+router.get("/userinfo", (req, res) => {
+    console.log(req.session)
+    const user = req.session.user;
+    // console.log(cook);
+    console.log("user acquired");
+    if(user) {
+        res.json({
+            status: "SUCCESS",
+            firstn: `${user.user_first_name}`,
+            lastn: `${user.user_last_name}`,
+            phonenumber: `${user.phonenumber}`,
+            email: `${user.user_email}`,
+            address: `${user.user_address}`
+        })
+    } else {
+        res.json({
+            status: "FAILED",
+            message: "Error finding user"
+        })
+    }
+});
+
 router.get("/useraddress", (req, res) => {
     console.log(req.session + "here is my test")
     console.log("/useraddress is running")

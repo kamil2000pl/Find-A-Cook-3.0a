@@ -3,7 +3,24 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCook } from '../../redux/actions/cookActions'
 import axios from 'axios';
-import Scheduler from '../Scheduler';
+
+async function postImage({documents, description}) {
+  const formData = new FormData();
+  for (let i = 0; i < documents.length; i++) {
+    formData.append('document', documents[i]);
+  }
+  formData.append('description', description);
+
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+
+  const result = await axios.post('http://localhost:5001/cook/documents', formData, config);
+  return result.data;
+}
+
 
 const CookDashboard = () => {
   const navigate = useNavigate();
@@ -20,7 +37,20 @@ const CookDashboard = () => {
 	const { cook } = useSelector(state => state.cooks);
   console.log(cook);
 
+  const [documentDescription, setDocumentDescription] = useState("")
+  const [documents, setDocuments] = useState([]);
 
+  const submit = async (event) => {
+    event.preventDefault();
+    const result = await postImage({documents, documentDescription});
+    setDocuments([...result.documents, ...documents]);
+  };
+  
+
+  const fileSelected = (event) => {
+    const files = event.target.files;
+    setDocuments(files);
+  };
 
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
@@ -105,7 +135,24 @@ const CookDashboard = () => {
            </div>
  
      </section>
-      <Scheduler />
+
+
+
+     <div className="personal-form-body">
+        <main className="personal-form-container">
+        <section className="personal-form-section">
+          <h2>Personal Information</h2>
+          <form encType="multipart/form-data" method="POST" action="/cook/documents" onSubmit={submit} className="personal-form">
+        <label for="other">Other</label>
+        <input type="file" name="document" multiple onChange={(e) => fileSelected(e)} placeholder="Other" accept=".pdf" /> <br />
+
+
+        <a href="/submit"><button className="applicationBtn">Apply</button></a>
+
+      </form>
+        </section>
+        </main>
+      </div>
 
 </>
     );
