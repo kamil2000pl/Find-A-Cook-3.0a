@@ -125,7 +125,7 @@ const connectDB = async () => {
 
 connectDB();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 10000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 // const mysql = require("mysql");
