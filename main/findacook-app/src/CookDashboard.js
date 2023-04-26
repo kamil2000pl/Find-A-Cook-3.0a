@@ -14,10 +14,29 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 //import Maps from './components/Maps';
+import axios from "axios";
+
 
 
 
 function CookDashboard() {
+
+  const [firstname, setFirstName] = useState("");
+  const [profile, setProfile] = useState("");
+  axios.defaults.withCredentials = true
+  useEffect(()=> {
+    axios.get('http://localhost:5001/cook/cookinfo')
+    .then((res) => {
+      setFirstName(res.data.firstn);
+      setProfile(res.data.profile);
+      console.log(res.data.firstn)
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }, [])
+
+
   return (
     <>
 
@@ -45,7 +64,7 @@ function CookDashboard() {
           <div class="row">
             <div class="col-xl-4">
               <div class="card-box">
-                <h4 class="header-title mt-0">Personal Information</h4>
+                <h4 class="header-title mt-0">Personal Information {firstname}</h4>
                 <div class="panel-body">
                   <p class="text-muted font-13">
                     Hye, I’m Soeng Souy residing in this beautiful world. I

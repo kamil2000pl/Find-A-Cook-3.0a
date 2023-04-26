@@ -50,9 +50,9 @@ function App() {
           dispatch(getCategories());
   }, [dispatch]);
 
-  useEffect(() => {
-          dispatch(getCooks());
-  }, [dispatch]);
+  // useEffect(() => {
+  //         dispatch(getCooks());
+  // }, [dispatch]);
 
 
   return (

@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./topbar.css";
 import { FaLanguage } from "react-icons/fa";
+import axios from "axios";
 
 const Topbar = () => {
+
+  const [firstname, setFirstName] = useState("");
+  const [profile, setProfile] = useState("");
+  axios.defaults.withCredentials = true
+  useEffect(()=> {
+    axios.get('http://localhost:5001/cook/cookinfo')
+    .then((res) => {
+      setFirstName(res.data.firstn);
+      setProfile(res.data.profile);
+      console.log(res.data.firstn)
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }, [])
 
     return(
         <>
             <div className="topbar">
       <div className="topbarWrapper">
         <div className="topLeft">
-          <span className="logo">Admin</span>
+          <span className="logo">Hi {firstname}</span>
         </div>
         <div className="topRight">
           <div className="topbarIconContainer">

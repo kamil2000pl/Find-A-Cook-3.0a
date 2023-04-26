@@ -21,6 +21,21 @@ async function postImage({documents, description}) {
   return result.data;
 }
 
+const [firstname, setFirstName] = useState("");
+  const [profile, setProfile] = useState("");
+  axios.defaults.withCredentials = true
+  useEffect(()=> {
+    axios.get('http://localhost:5001/cook/cookinfo')
+    .then((res) => {
+      setFirstName(res.data.firstn);
+      setProfile(res.data.profile);
+      console.log(res.data.firstn)
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }, [])
+
 
 const CookDashboard = () => {
   const navigate = useNavigate();

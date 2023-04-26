@@ -29,46 +29,76 @@ const DistanceMeasurement = () => {
     Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_KEY);
     
     const navigate = useNavigate();
-    const { userId } = useParams();
-    console.log('user id is here - ', userId)
+    // const { userId } = useParams();
+
+    // const[id, setID] = useState("");
+
+    // setID(res.data.id);
+
+    // console.log('user id is here - ', userId)
   
+    // useEffect(() => {
+    //   fetchCooks();
+    // }, []);
+
+    // const fetchCooks = async () => {
+    //   try {
+    //     const response = await axios.get("http://localhost:5001/cook/allcooks");
+    //     setCooks(response.data.cooks);
+    //   } catch (error) {
+    //     console.error("Error fetching cooks:", error);
+    //   }
+    // };
+
+
     const dispatch = useDispatch();
-    
-  
+
     useEffect(() => {
-      dispatch(getUser(userId));
-    }, [dispatch, userId]);
+        dispatch(getCooks())
+    }, [dispatch])
+
+    const {cooks} = useSelector(state => state.cooks)
+    console.log('cool1', cooks)
+    
   
-    const { user } = useSelector(state => state.users);
-    console.log(user);
+    // useEffect(() => {
+    //   dispatch(getUser(userId));
+    // }, [dispatch, userId]);
+  
+    // const { user } = useSelector(state => state.users);
+    // console.log("heres the user - " + user);
     
 
-    const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phonenumber, setPhoneNumber] = useState("");
-    const [address, setAddress] = useState("");
-    axios.defaults.withCredentials = true
-    useEffect(()=> {
-        axios.get('http://localhost:5001/user/userinfo')
-        .then((res) => {
-            setFirstName(res.data.firstn);
-            setLastName(res.data.lastn);
-            setPhoneNumber(res.data.phonenumber);
-            setEmail(res.data.email);
-            setAddress(res.data.address);
-            console.log(res.data.firstn + " - current user")
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-    }, [])
+    // GOOD USER ADDRESS CODE STARTS HERE
+
+    // const [firstname, setFirstName] = useState("");
+    // const [lastname, setLastName] = useState("");
+    // const [useraddress, setUserAddress] = useState("");
+    // axios.defaults.withCredentials = true
+    // useEffect(()=> {
+    //     axios.get('http://localhost:5001/user/userinfo')
+    //     .then((res) => {
+    //         // setAddress(res.data.address);
+    //         // console.log(res.data.address + " - current user")
+    //         setUserAddress(res.data.address);
+    //         console.log("WORKING")
+    //     })
+    //     .catch((err) => {
+    //         console.error(err);
+    //         console.log("NOT WORKING");
+    //     });
+    // }, [])
+
+
+    // ENDS HERE
+
+    
   
-    console.log(firstname + " - current user")
+    // console.log(useraddress + " - current user1")
 
-    console.log('test')
+    // console.log('test')
 
-
+    // const dispatch = useDispatch();
   
     // useEffect(() => {
     //   fetchAddress();
@@ -85,12 +115,12 @@ const DistanceMeasurement = () => {
 
  
 
-    useEffect(() => {
-        dispatch(getCooks())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getCooks())
+    // }, [dispatch])
     
-    const {cooks} = useSelector(state => state.cooks)
-    console.log('cool1', cooks)
+    // const {cooks} = useSelector(state => state.cooks)
+    // console.log('cool1', cooks)
 
 
   //   useEffect(() => {
@@ -148,15 +178,15 @@ const DistanceMeasurement = () => {
 
 
 
-    // const userAddress = "6 Tower View, Stoney Lane, Ardee, Co. Louth"
+    const useraddress = "6 Tower View, Stoney Lane, Ardee, Co. Louth"
     
     
 
-    // Geocode.fromAddress({userAddress}).then(
+    // Geocode.fromAddress({useraddress}).then(
     //   (response) => {
     //     userLat = response.results[0].geometry.location.lat;
     //     userLng = response.results[0].geometry.location.lng;
-    //     console.log('coords1 = ' + lat + ' ' + lng);
+    //     console.log('coords1 = ' + userLat + ' ' + userLng);
     //     // console.log('coords2 = ' + lat + ' ' + lng);
     //   },
     //   (error) => {
@@ -178,19 +208,21 @@ const DistanceMeasurement = () => {
 
 
       //Distance calculation
-      Number.prototype.toRad = function() {
-        return this * Math.PI / 180;
+      if (typeof(Number.prototype.toRad) === "undefined") {
+        Number.prototype.toRad = function() {
+          return this * Math.PI / 180;
+        }
       }
       
       
       var R = 6371; // km 
       //has a problem with the .toRad() method below.
       var x1 = userLat-lat;
-      var dLat = x1.toRad();  
+      var dLat = x1 * Math.PI / 180;  
       var x2 = userLng-lng;
-      var dLon = x2.toRad();  
+      var dLon = x2 * Math.PI / 180;  
       var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
-                      Math.cos(lat.toRad()) * Math.cos(userLat.toRad()) * 
+                      Math.cos(lat * Math.PI / 180) * Math.cos(userLat * Math.PI / 180) * 
                       Math.sin(dLon/2) * Math.sin(dLon/2);  
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
       var d = R * c; 

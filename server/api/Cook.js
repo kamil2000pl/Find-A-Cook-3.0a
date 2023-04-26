@@ -165,7 +165,6 @@ router.get("/cookinfo", (req, res) => {
     console.log(req.session)
     const cook = req.session.cook;
     // console.log(cook);
-    console.log("cook acquired");
     if(cook) {
         res.json({
             status: "SUCCESS",

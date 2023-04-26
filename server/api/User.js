@@ -303,28 +303,38 @@ router.post('/signin', (req, res) => {
     }
 })
 
-router.get("/userinfo", (req, res) => {
-    console.log(req.session)
-    const user = req.session.user;
-    if(user) {
-        res.json({
-            status: "SUCCESS",
-            fname: `${user.user_first_name}`,
-            sname: `${user.user_last_name}`
-        })
-    } else {
-        res.json({
-            status: "FAILED",
-            message: "ERROR",
-        })
-    }
-});
+// router.get("/userinfo", (req, res) => {
+//     console.log(req.session)
+//     const user = req.session.user;
+//     if(user) {
+//         res.json({
+//             status: "SUCCESS",
+//             fname: `${user.user_first_name}`,
+//             sname: `${user.user_last_name}`
+//         })
+//     } else {
+//         res.json({
+//             status: "FAILED",
+//             message: "ERROR",
+//         })
+//     }
+// });
 
 router.get("/userinfo", (req, res) => {
+    if (req.session.hasOwnProperty('user')) {
+        // the user property exists on the session object
+        // you can access it using req.session.user
+        console.log("yay")
+      } else {
+        // the user property does not exist on the session object
+        console.log("no yay :(")
+      }
+
+
     console.log(req.session)
+    console.log(req.session.user)
     const user = req.session.user;
-    // console.log(cook);
-    console.log("user acquired");
+    console.log(user);
     if(user) {
         res.json({
             status: "SUCCESS",
