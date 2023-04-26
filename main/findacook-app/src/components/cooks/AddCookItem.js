@@ -16,7 +16,7 @@ function AddMenuItem() {
   useEffect(() => {
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:5001/cook/menucategories');
+            const response = await axios.get('https://findacook-web.onrender.com/api/cook/menucategories');
             if (response.data.status === 'SUCCESS') {
                 setCategories(response.data.menuCategories);
             } else {

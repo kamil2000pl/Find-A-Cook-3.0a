@@ -68,7 +68,7 @@ const CustomerBooking = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/cook/allreviews");
+      const response = await axios.get("https://findacook-web.onrender.com/api/cook/allreviews");
       console.log(response)
       setReviews(response.data.reviews);
     } catch (error) {
