@@ -8,7 +8,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const handleLogout = async () => {
         try {
-          const response = await axios.post("http://localhost:5001/user/logout");
+          const response = await axios.post("https://findacook-web.onrender.com/api/user/logout");
           if (response.data.status === "SUCCESS") {
             alert("Logged out successfully");
             // Redirect user to login or any other appropriate page

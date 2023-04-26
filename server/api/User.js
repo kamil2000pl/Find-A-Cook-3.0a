@@ -105,7 +105,7 @@ router.post('/signup', (req, res) => {
 
 
 const sendVerificationEmail = ({_id, user_email}, res) => {
-    const currentUrl = "http://localhost:5001/";
+    const currentUrl = "https://findacook-web.onrender.com/api";
 
     const uniqueString = uuidv4() + _id;
 

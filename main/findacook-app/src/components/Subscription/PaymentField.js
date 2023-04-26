@@ -19,7 +19,7 @@ const PaymentField = (props) => {
       customerEmailId: cook_email,
     };
     axios
-      .post("http://localhost:5001/create_checkout_link", data) //POST request with data as payload
+      .post("https://findacook-web.onrender.com/api/create_checkout_link", data) //POST request with data as payload
       .then((response) => {
         window.open(response.data.url, '_self'); //If the request is successful, URL is opened that's returned from the server in the same window ('_self').
       })

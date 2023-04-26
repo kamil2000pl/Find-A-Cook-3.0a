@@ -69,7 +69,7 @@ function AddMenuItem() {
                 'Content-Type': 'multipart/form-data',
             },
         };
-      await axios.post('http://localhost:5001/cook/addmenuitem', formData, config);
+      await axios.post('https://findacook-web.onrender.com/api/cook/addmenuitem', formData, config);
       alert('Menu item added successfully');
       setForm({
         item_name: '',

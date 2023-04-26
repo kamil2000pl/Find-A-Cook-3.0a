@@ -6,7 +6,7 @@ function LogoutButton() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    axios.post('http://localhost:5001/user/logout')
+    axios.post('https://findacook-web.onrender.com/api/user/logout')
       .then((res) => {
         console.log(res.data);
         navigate("/login");

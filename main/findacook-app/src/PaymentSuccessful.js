@@ -18,7 +18,7 @@ const PaymentSuccessful = () => {
     const verifyCookEmail = async () => {
       try {
         // send a POST request to verify the cook's email
-        const response = await axios.post("http://localhost:5001/cook/verify_cook", {
+        const response = await axios.post("https://findacook-web.onrender.com/api/cook/verify_cook", {
           cook_email: cook_email,
         });
 
