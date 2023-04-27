@@ -187,7 +187,7 @@ router.get("/cookinfo", (req, res) => {
   }
 });
 
-router.get("/allcooks", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const cooks = await Cook.find({}, { cook_first_name: 1, cook_last_name: 1, profile_picture: 1, application_status: 1, cook_bio: 1, description: 1, _id: 1, specialties: 1 });
 
