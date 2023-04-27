@@ -10,7 +10,7 @@ import { getUser } from '../../redux/actions/userActions'
 
 
 const DistanceMeasurement = () => {
-    // const [cooks, setCooks] = useState([]);
+    const [cooks, setCooks] = useState([]);
     // const userLat = 53.707785;
     // const userLng = -6.336063;
     // const lat = 53.989254;
@@ -50,15 +50,27 @@ const DistanceMeasurement = () => {
     //   }
     // };
 
-
-    const dispatch = useDispatch();
-
     useEffect(() => {
-        dispatch(getCooks())
-    }, [dispatch])
+      fetchCooks();
+    }, []);
+  
+    const fetchCooks = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/cook/allcooks");
+        setCooks(response.data.cooks);
+      } catch (error) {
+        console.error("Error fetching cooks:", error);
+      }
+    };
 
-    const {cooks} = useSelector(state => state.cooks)
-    console.log('cool1', cooks)
+    // const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     dispatch(getCooks())
+    // }, [dispatch])
+
+    // const {cooks} = useSelector(state => state.cooks)
+    // console.log('cool1', cooks)
     
   
     // useEffect(() => {
@@ -174,7 +186,7 @@ const DistanceMeasurement = () => {
   //       console.error("Error fetching address:", error);
   //     }
   //   };
-
+    console.log("HI")
 
 
 
@@ -182,29 +194,30 @@ const DistanceMeasurement = () => {
     
     
 
-    // Geocode.fromAddress({useraddress}).then(
-    //   (response) => {
-    //     userLat = response.results[0].geometry.location.lat;
-    //     userLng = response.results[0].geometry.location.lng;
-    //     console.log('coords1 = ' + userLat + ' ' + userLng);
-    //     // console.log('coords2 = ' + lat + ' ' + lng);
-    //   },
-    //   (error) => {
-    //     console.error(error);
-    //   }
-    // )
+    Geocode.fromAddress({useraddress}).then(
+      (response) => {
+        userLat = response.results[0].geometry.location.lat;
+        userLng = response.results[0].geometry.location.lng;
+        console.log('coords1 = ' + userLat + ' ' + userLng);
+        // console.log('coords2 = ' + lat + ' ' + lng);
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
 
     cooks.forEach( cook => {
-      // Geocode.fromAddress(cook.cook_address).then(
-      //   (response) => {
-      //     lat = response.results[0].geometry.location.lat;
-      //     lng = response.results[0].geometry.location.lng;
-      //     console.log('coords1 = ' + lat + ' ' + lng);
-      //   },
-      //   (error) => {
-      //     console.error(error);
-      //   }
-      // )
+      Geocode.fromAddress(cook.cook_address).then(
+        (response) => {
+          lat = response.results[0].geometry.location.lat;
+          lng = response.results[0].geometry.location.lng;
+          console.log('coords1 = ' + lat + ' ' + lng);
+        },
+        (error) => {
+          console.error(error);
+        }
+      )
+
 
 
       //Distance calculation
@@ -227,7 +240,9 @@ const DistanceMeasurement = () => {
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
       var d = R * c; 
       
+      
       // alert(d);
+      console.log("d - " + d)
 
     }
        );
