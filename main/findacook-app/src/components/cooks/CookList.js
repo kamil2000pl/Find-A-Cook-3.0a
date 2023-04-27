@@ -10,7 +10,7 @@ const CookList = () => {
   
     const fetchCooks = async () => {
       try {
-        const response = await axios.get("https://findacook-server.onrender.com/api/cook/allcooks");
+        const response = await axios.get("https://findacook-web.onrender.com/api/cook/allcooks");
         setCooks(response.data.cooks);
       } catch (error) {
         console.error("Error fetching cooks:", error);

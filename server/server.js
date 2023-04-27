@@ -14,11 +14,11 @@ const ScheduleRouter = require('./api/Schedule');
 
 const bodyParser = require('express').json;
 app.use(bodyParser());
-app.use(cors({
-    origin: ["https://warm-genie-f5eba1.netlify.app/"],
-    methods: ["GET", "POST"],
-    credentials: true
-}));
+// app.use(cors({
+//     origin: ["https://warm-genie-f5eba1.netlify.app/"],
+//     methods: ["GET", "POST"],
+//     credentials: true
+// }));
 
 
 /** 

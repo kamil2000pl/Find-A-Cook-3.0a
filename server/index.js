@@ -12,7 +12,7 @@ const filterRoutes = require('./routes/filter');
 // const subscriptionController = require('./routes/subscribe')
 const mongoose = require('mongoose');
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use('/api/category', categoryRoutes);
 // app.use('/api/subscribe', subscriptionController);
