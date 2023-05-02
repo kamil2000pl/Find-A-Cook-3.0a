@@ -184,6 +184,11 @@ const events = [
     title:"Mabel",
     start: new Date(2023,6,1,12,0),
     end: new Date(2023,6,1,15,0)
+  },
+  {
+    title:"Joseph",
+    start: new Date(2023,5,2),
+    end: new Date(2023,5,2),
   }
 ]
 
