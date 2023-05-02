@@ -34,7 +34,7 @@ const Cook = ({ cook }) => {
       <div className="card__img">
 
           <picture>
-            <img src="../images/bao.jpg" />
+            <img src={`../images/${cook.cook_first_name}.jpg`} height="400" width="700" />
 </picture>
       </div>
 </div>
