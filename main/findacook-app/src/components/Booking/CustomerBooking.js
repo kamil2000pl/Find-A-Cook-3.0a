@@ -79,7 +79,7 @@ const CustomerBooking = () => {
 
 
   // const { roomid, bookingDate } = useParams();
-  const theDate = moment(bookingDate, 'DD-MM-YYYY').format('DD-MM-YYYY');
+ // const theDate = moment(bookingDate, 'DD-MM-YYYY').format('DD-MM-YYYY');
 
 
   return (
@@ -126,9 +126,9 @@ const CustomerBooking = () => {
               <p><img src='/images/rating.jpg' id="rating-img" />(67 reviews)</p>
             </div>
             <p>{cook.description}</p>
-            <span className="selectedDatesHighlight">
+            {/* <span className="selectedDatesHighlight">
               Selected Date: {theDate}
-            </span>
+            </span> */}
 
             <div className="cookFoodImages">
               <div className="cookFoodImgWrapper" >
