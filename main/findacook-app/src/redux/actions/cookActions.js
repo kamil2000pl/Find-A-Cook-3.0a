@@ -61,6 +61,7 @@ export const getCook = cookId => async dispatch => {
 		console.log("id3", cookId)
 		dispatch({ type: START_LOADING });
 		const response = await axios.get(`/api/cook/${cookId}`);
+		console.log("working to here")
 		dispatch({ type: STOP_LOADING });
 		dispatch({
 			type: GET_COOK,

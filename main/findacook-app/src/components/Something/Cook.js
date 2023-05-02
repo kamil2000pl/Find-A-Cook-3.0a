@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import "./Cook.css";
 import AverageReview from '../Review/AverageReview';
 
-const Cook = ({ cook, /*bookingDate*/ }) => {
+const Cook = ({ cook }) => {
 
     const [show, setShow] = useState(false);
 

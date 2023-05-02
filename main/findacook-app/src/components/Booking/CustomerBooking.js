@@ -42,7 +42,7 @@ const CustomerBooking = () => {
 
 
   const navigate = useNavigate();
-  const { cookId/*, bookingDate*/ } = useParams();
+  const { cookId } = useParams();
   const dispatch = useDispatch();
 
 
