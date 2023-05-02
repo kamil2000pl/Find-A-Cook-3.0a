@@ -23,7 +23,7 @@ const CookDashboard = () => {
 	const { cook } = useSelector(state => state.cooks);
   console.log(cook);
 
-  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_KEY);
+  Geocode.setApiKey("AIzaSyBasdqjFLpnbCBlJT8laLhhG9eHUTqyTes");
 
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");

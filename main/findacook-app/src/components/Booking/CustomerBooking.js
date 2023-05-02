@@ -56,14 +56,21 @@ const CustomerBooking = () => {
 
   };
 
-  const { cook } = useSelector(state => state.cooks);
+  // const { cook } = useSelector(state => state.cooks);
 
-  console.log(cook)
+ 
 
   const [reviews, setReviews] = useState([]);
+  const [cook, setCook] = useState([]);
+
+ console.log(cook)
 
   useEffect(() => {
     fetchReviews();
+  }, []);
+
+  useEffect(() => {
+    fetchCook();
   }, []);
 
   const fetchReviews = async () => {
@@ -77,6 +84,16 @@ const CustomerBooking = () => {
     }
   };
 
+  const fetchCook = async () => {
+    try {
+      const response = await axios.get("http://localhost:5001/cook/allcooks");
+      const filteredCook = response.filter(cook => cook._id === cookId);
+      console.log(response)
+      setCook(filteredCook.data);
+    } catch (error) {
+      console.error("Error fetching cook:", error);
+    }
+  };
 
   // const { roomid, bookingDate } = useParams();
  // const theDate = moment(bookingDate, 'DD-MM-YYYY').format('DD-MM-YYYY');
