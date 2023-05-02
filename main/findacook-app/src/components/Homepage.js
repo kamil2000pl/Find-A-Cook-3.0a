@@ -65,7 +65,7 @@ const Homepage = () => {
       <div class="profile-info">
       <div class="product-section">
 {cooks.map((cook, index) => (
-         <Cook key={cook._id} cook={cook} bookingDate={bookingDate}/>
+         <Cook key={cook._id} cook={cook} /*bookingDate={bookingDate}*//>
           ))}
        </div>   
        </div>   
