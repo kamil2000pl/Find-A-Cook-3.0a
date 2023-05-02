@@ -87,9 +87,9 @@ const CustomerBooking = () => {
   const fetchCook = async () => {
     try {
       const response = await axios.get("http://localhost:5001/cook/allcooks");
-      const filteredCook = response.filter(cook => cook._id === cookId);
-      console.log(response)
-      setCook(filteredCook.data);
+      const filteredCook = response.data.cooks.filter(cook => cook._id === cookId);
+      console.log(filteredCook[0])
+      setCook(filteredCook[0]);
     } catch (error) {
       console.error("Error fetching cook:", error);
     }
