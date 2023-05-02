@@ -76,9 +76,9 @@ const CustomerBooking = () => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get("http://localhost:5001/cook/allreviews");
-      const filteredReviews = response.filter(review => review.cookId === cook.cookId);
-      console.log(response)
-      setReviews(filteredReviews.data.reviews);
+      const filteredReviews = response.data.reviews.filter(review => review.cookId === cook.cookId);
+      console.log(filteredReviews)
+      setReviews(filteredReviews);
     } catch (error) {
       console.error("Error fetching reviews:", error);
     }
