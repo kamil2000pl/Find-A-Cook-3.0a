@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import "./Cook.css";
 import AverageReview from '../Review/AverageReview';
 
-const Cook = ({ cook, bookingDate }) => {
+const Cook = ({ cook, /*bookingDate*/ }) => {
 
     const [show, setShow] = useState(false);
 
@@ -23,7 +23,8 @@ const Cook = ({ cook, bookingDate }) => {
         <div className="smallText">Cuisine: {cook.specialties} </div>
         <div className="smallText">Rating: <AverageReview cookId={cook._id} /></div>
       
-        <Link to={`/cook/${cook._id}/${bookingDate}`}>
+        {/* <Link to={`/cook/${cook._id}/${bookingDate}`}> */}
+        <Link to={`/cook/${cook._id}`}>
         <button onClick={handleShow}>Book Now</button>
         </Link>
         <button onClick={handleShow}>View Details</button>

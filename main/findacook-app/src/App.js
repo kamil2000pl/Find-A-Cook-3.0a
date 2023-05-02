@@ -94,7 +94,8 @@ function App() {
       <Route path="/categories" element={<CategoriesPage />} />
       <Route path="/bookings" element={<ViewBookingsPage />} />
       <Route path="/cook" element={<BookingPage />} />
-      <Route path="/cook/:cookId/:bookingDate" element={<BookingPage/>} />
+      <Route path="/cook/:cookId" element={<BookingPage/>} />
+      {/* <Route path="/cook/:cookId/:bookingDate" element={<BookingPage/>} /> */}
       {/* <Route path="/edit/category/:categoryId" element={<EditCategory />} />
       <Route path="/category/:categoryId" element={<CategoryPage/>} /> */}
       <Route path="/reviewcook" element={<ReviewCook />} />
