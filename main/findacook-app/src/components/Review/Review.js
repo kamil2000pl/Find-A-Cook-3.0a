@@ -61,7 +61,7 @@ const Review = ({ review }) => {
                     />
                 </div>
                 <div className='review_date'>{curr_date + "/" + curr_month + "/" + curr_year}</div>
-                <div className='review_img'>{review.filename}</div>
+                <div className='review_img' src={review.filename}></div>
                 <div className='review_title'>{review.review_title}</div>
                 <div className='review_body'>{review.review_body}</div>
             </div>

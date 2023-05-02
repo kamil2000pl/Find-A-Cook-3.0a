@@ -14,49 +14,49 @@ import CreateReview from '../Review/CreateReview';
 import moment from 'moment';
 
 const CustomerBooking = () => {
-	const [slideNumber, setSlideNumber] = useState(0);
-	const [open, setOpen] = useState(false);
-	const [openModal, setOpenModal] = useState(false);
+  const [slideNumber, setSlideNumber] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-  
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-	const handleOpen = (i) => {
-		setSlideNumber(i);
-		setOpen(true);
-	  };
-	
-	  const handleMove = (direction) => {
-		let newSlideNumber;
-	
-		if (direction === "l") {
-		  newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
-		} else {
-		  newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
-		}
-	
-		setSlideNumber(newSlideNumber);
-	  };
 
-	  
+  const handleOpen = (i) => {
+    setSlideNumber(i);
+    setOpen(true);
+  };
+
+  const handleMove = (direction) => {
+    let newSlideNumber;
+
+    if (direction === "l") {
+      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+    } else {
+      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+    }
+
+    setSlideNumber(newSlideNumber);
+  };
+
+
   const navigate = useNavigate();
-	const { cookId, bookingDate } = useParams();
-	const dispatch = useDispatch(); 
+  const { cookId, bookingDate } = useParams();
+  const dispatch = useDispatch();
 
 
-	useEffect(() => {
-		dispatch(getCook(cookId));
-	}, [dispatch, cookId]);
+  useEffect(() => {
+    dispatch(getCook(cookId));
+  }, [dispatch, cookId]);
 
-	const handleClick = () => {
+  const handleClick = () => {
 
-		  setOpenModal(true);
+    setOpenModal(true);
 
-	  };
+  };
 
-	const { cook } = useSelector(state => state.cooks);
+  const { cook } = useSelector(state => state.cooks);
 
   console.log(cook)
 
@@ -69,8 +69,9 @@ const CustomerBooking = () => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get("http://localhost:5001/cook/allreviews");
+      const filteredReviews = response.filter(review => review.cookId === cook.cookId);
       console.log(response)
-      setReviews(response.data.reviews);
+      setReviews(filteredReviews.data.reviews);
     } catch (error) {
       console.error("Error fetching reviews:", error);
     }
@@ -79,16 +80,16 @@ const CustomerBooking = () => {
 
   // const { roomid, bookingDate } = useParams();
   const theDate = moment(bookingDate, 'DD-MM-YYYY').format('DD-MM-YYYY');
-  
-
-    return (
-<>
 
 
-{cook && (
+  return (
+    <>
 
-<div className='cookContainer'>
-{open && (
+
+      {cook && (
+
+        <div className='cookContainer'>
+          {open && (
             <div className="slider">
               <FaWindowClose
                 className="close"
@@ -113,79 +114,79 @@ const CustomerBooking = () => {
             </div>
           )}
 
-<div className="cookWrapper">
-<button className="bookNow" onClick={handleShow}>Book Now!</button>
- 	  <div className="profile-picture">
- 		<img src={`/uploads/${cook.profile_picture}`} alt="Profile Picture" />
- 	  </div>
-<h1 className="cookName">{cook.cook_first_name} {cook.cook_last_name}</h1>
- 		<div className="credentials">
- 			  <p className='verifiedTooltip'>Verified Cook <img src='/images/verified.png' className='verifiedImg'/><span className="tooltiptext">This cook is 100% verified by Find A Cook and meets our standards to ensure the highest quality experience for our clients.</span></p>
- 			  <p className='verifiedTooltip'>Food Safety Cert <img src='/images/certification.png' className='verifiedImg'/><span className="tooltiptext">This cook maintains a certificate for food safety and sanitation to ensure ingredients, handling and preparation are in line with industry standards.</span></p> 
- 			  <p><img src='/images/rating.jpg' id="rating-img"/>(67 reviews)</p>
- 		  </div>
- 		<p>{cook.description}</p>
-     <span className="selectedDatesHighlight">
-          Selected Date: {theDate}
+          <div className="cookWrapper">
+            <button className="bookNow" onClick={handleShow}>Book Now!</button>
+            <div className="profile-picture">
+              <img src={`/uploads/${cook.profile_picture}`} alt="Profile Picture" />
+            </div>
+            <h1 className="cookName">{cook.cook_first_name} {cook.cook_last_name}</h1>
+            <div className="credentials">
+              <p className='verifiedTooltip'>Verified Cook <img src='/images/verified.png' className='verifiedImg' /><span className="tooltiptext">This cook is 100% verified by Find A Cook and meets our standards to ensure the highest quality experience for our clients.</span></p>
+              <p className='verifiedTooltip'>Food Safety Cert <img src='/images/certification.png' className='verifiedImg' /><span className="tooltiptext">This cook maintains a certificate for food safety and sanitation to ensure ingredients, handling and preparation are in line with industry standards.</span></p>
+              <p><img src='/images/rating.jpg' id="rating-img" />(67 reviews)</p>
+            </div>
+            <p>{cook.description}</p>
+            <span className="selectedDatesHighlight">
+              Selected Date: {theDate}
             </span>
 
-		 <div className="cookFoodImages">
-                <div className="cookFoodImgWrapper" >
-                  <img
-                    // onClick={() => setOpen(true)}
-                    src='/images/bao.jpg'
-                    alt=""
-                    className="cookFoodlImg"
-                  />
-				  
-                </div>
-				<div className="cookFoodImgWrapper" >
-                  <img
-                    // onClick={() => handleOpen(i)}
-                    src='/images/bao.jpg'
-                    alt=""
-                    className="cookFoodlImg"
-                  />
-				  
-                </div>
-				<div className="cookFoodImgWrapper" >
-                  <img
-                    // onClick={() => handleOpen(i)}
-                    src='/images/bao.jpg'
-                    alt=""
-                    className="cookFoodlImg"
-                  />
-				  
-                </div>
-				<div className="cookFoodImgWrapper" >
-                  <img
-                    // onClick={() => handleOpen(i)}
-                    src='/images/bao.jpg'
-                    alt=""
-                    className="cookFoodlImg"
-                  />
-				  
-                </div>
-				<div className="cookFoodImgWrapper" >
-                  <img
-                    // onClick={() => handleOpen(i)}
-                    src='/images/bao.jpg'
-                    alt=""
-                    className="cookFoodlImg"
-                  />
-				  
-                </div>
+            <div className="cookFoodImages">
+              <div className="cookFoodImgWrapper" >
+                <img
+                  // onClick={() => setOpen(true)}
+                  src='/images/bao.jpg'
+                  alt=""
+                  className="cookFoodlImg"
+                />
 
-				<div className="cookFoodImgWrapper" >
-                  <img
-                    // onClick={() => handleOpen(i)}
-                    src='/images/bao.jpg'
-                    alt=""
-                    className="cookFoodlImg"
-                  />
-				  
-                </div>
-    
+              </div>
+              <div className="cookFoodImgWrapper" >
+                <img
+                  // onClick={() => handleOpen(i)}
+                  src='/images/bao.jpg'
+                  alt=""
+                  className="cookFoodlImg"
+                />
+
+              </div>
+              <div className="cookFoodImgWrapper" >
+                <img
+                  // onClick={() => handleOpen(i)}
+                  src='/images/bao.jpg'
+                  alt=""
+                  className="cookFoodlImg"
+                />
+
+              </div>
+              <div className="cookFoodImgWrapper" >
+                <img
+                  // onClick={() => handleOpen(i)}
+                  src='/images/bao.jpg'
+                  alt=""
+                  className="cookFoodlImg"
+                />
+
+              </div>
+              <div className="cookFoodImgWrapper" >
+                <img
+                  // onClick={() => handleOpen(i)}
+                  src='/images/bao.jpg'
+                  alt=""
+                  className="cookFoodlImg"
+                />
+
+              </div>
+
+              <div className="cookFoodImgWrapper" >
+                <img
+                  // onClick={() => handleOpen(i)}
+                  src='/images/bao.jpg'
+                  alt=""
+                  className="cookFoodlImg"
+                />
+
+              </div>
+
             </div>
 
 
@@ -193,30 +194,30 @@ const CustomerBooking = () => {
 
 
 
-			</div>
+          </div>
 
-      <div className="reviewWrapper">
-        <CreateReview/>
-        <h1 className="reviewHeader">{cook.cook_first_name}'s Reviews</h1>
-        {reviews.map((review, index) => (
-         <Review key={review._id} review={review}/>
-          ))}
-      </div>
+          <div className="reviewWrapper">
+            <CreateReview />
+            <h1 className="reviewHeader">{cook.cook_first_name}'s Reviews</h1>
+            {reviews.map((review, index) => (
+              <Review key={review._id} review={review} />
+            ))}
+          </div>
 
-</div>
+        </div>
 
-			)}
-			{/* {openModal && <BookingForm setOpen={setOpenModal} cookId={cookId}/>} */}
-
-
+      )}
+      {/* {openModal && <BookingForm setOpen={setOpenModal} cookId={cookId}/>} */}
 
 
-			<Modal show={show} onHide={handleClose}>
+
+
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-            <Modal.Title>Select your menu items: </Modal.Title>
+          <Modal.Title>Select your menu items: </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <div className="rItem" >
+          <div className="rItem" >
             <div className="rItemInfo">
               <div className="rTitle">Bao Buns</div>
               <div className="rDesc">Yum</div>
@@ -225,17 +226,17 @@ const CustomerBooking = () => {
             </div>
             <div className="selectFood">
 
-                <div className="food">
-                  <input
-                    type="checkbox"
-                  />
-                </div>
-        
+              <div className="food">
+                <input
+                  type="checkbox"
+                />
+              </div>
+
             </div>
 
           </div>
 
-		  <div className="rItem" >
+          <div className="rItem" >
             <div className="rItemInfo">
               <div className="rTitle">Beef Burger </div>
               <div className="rDesc">Tasty</div>
@@ -244,25 +245,25 @@ const CustomerBooking = () => {
             </div>
             <div className="selectFood">
 
-                <div className="food">
-                  <input
-                    type="checkbox"
-                  />
-                </div>
-        
+              <div className="food">
+                <input
+                  type="checkbox"
+                />
+              </div>
+
             </div>
 
           </div>
         </Modal.Body>
         <Modal.Footer>
-            <button className='modalButton' onClick={handleClose}>
-                Close
-            </button>
+          <button className='modalButton' onClick={handleClose}>
+            Close
+          </button>
         </Modal.Footer>
-    </Modal>
-  
-</>
-    );
-  };
-  
-  export default CustomerBooking;
+      </Modal>
+
+    </>
+  );
+};
+
+export default CustomerBooking;

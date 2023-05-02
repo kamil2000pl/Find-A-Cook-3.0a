@@ -31,6 +31,7 @@ import store from './redux/store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   
+
   <BrowserRouter>
   <Provider store={store}><App /></Provider>
     {/* <Routes>
@@ -38,6 +39,7 @@ root.render(
     </Routes> */}
     {/* The various pages will be displayed by the `Main` component. */}
   </BrowserRouter>
+
 
 );
 
