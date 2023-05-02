@@ -88,7 +88,7 @@ function Scheduler(){
 
 export default Scheduler;*/
 import React from 'react'
-import axios from 'axios';
+
 import {Calendar, dateFnsLocalizer} from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -98,7 +98,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
 import {useState, useEffect, useRef} from "react";
 import DatePicker from "react-datepicker";
-import TimePicker from "react-time-picker";
+
 import Button from 'react-bootstrap/Button';
 
 
@@ -187,13 +187,12 @@ const events = [
   },
   {
     title:"Joseph",
-    start: new Date(2023,5,2),
-    end: new Date(2023,5,2),
+    start: new Date(2023,5,2,17,0),
+    end: new Date(2023,5,2,20,0)
   }
 ]
 
 function Scheduler(){
-  const [message, setMessage] = useState("");
   const [newEvent, setNewEvent] = useState({title:"", start:"", end:""})
   const calendarRef = useRef(null);
   const [allEvents, setAllEvents] = useState(() => {
@@ -242,11 +241,11 @@ function handleAddEvent() {
     borderBottomLeftRadius: "5%", 
     borderBottomRightRadius: "5%",
     height: "10%",
-    width: "30%"}}>
-          <h2>Add new booking</h2>
+    width: "27%"}}>
+          <h3 style={{fontSize: "22px", marginRight: "10%"}}>Add new event to schedule</h3>
           <input id="titleInput" type="text" 
             placeholder='Add Title' 
-            style={{width:"20%", marginRight: "10px",marginLeft:"4px"}}
+            style={{marginRight: "10px",marginLeft:"4px", left:"12%", position:"relative"}}
             value={newEvent.title} 
             onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
           />
@@ -254,7 +253,7 @@ function handleAddEvent() {
           selected={(newEvent.start)} onChange={(start) => setNewEvent({...newEvent,start})}/>
           <DatePicker id="DateInput" className="bookingInputs" placeholderText='End Date'
           selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent,end})}/>  
-          <Button id="bookBtn" variant="primary" onClick={() => {handleAddEvent();}}>Add Event</Button>
+          <Button id="bookBtn" style={{right:"13%"}} variant="primary" onClick={() => {handleAddEvent();}}>Add Event</Button>
     </div>
     </div>
     </>
