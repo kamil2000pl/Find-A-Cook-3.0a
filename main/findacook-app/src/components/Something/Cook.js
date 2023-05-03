@@ -20,7 +20,7 @@ const Cook = ({ cook }) => {
             
         <h3>{cook.cook_first_name}</h3>
         <img src="../images/cook1.jpg" alt="User Profile Picture" className='cookImg' />
-        <div className="smallText">Cuisine: {cook.specialties} </div>
+        {/* <div className="smallText">Cuisine: {cook.specialties} </div> */}
         <div className="smallText">Rating: <AverageReview cookId={cook._id} /></div>
       
         {/* <Link to={`/cook/${cook._id}/${bookingDate}`}> */}

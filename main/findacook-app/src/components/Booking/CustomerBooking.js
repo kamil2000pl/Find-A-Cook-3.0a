@@ -151,7 +151,7 @@ const CustomerBooking = () => {
               <div className="cookFoodImgWrapper" >
                 <img
                   // onClick={() => setOpen(true)}
-                  src='/images/bao.jpg'
+                  src='/images/Louise1.jpg'
                   alt=""
                   className="cookFoodlImg"
                 />
@@ -160,7 +160,7 @@ const CustomerBooking = () => {
               <div className="cookFoodImgWrapper" >
                 <img
                   // onClick={() => handleOpen(i)}
-                  src='/images/bao.jpg'
+                  src='/images/Louise2.jpg'
                   alt=""
                   className="cookFoodlImg"
                 />
@@ -169,7 +169,7 @@ const CustomerBooking = () => {
               <div className="cookFoodImgWrapper" >
                 <img
                   // onClick={() => handleOpen(i)}
-                  src='/images/bao.jpg'
+                  src='/images/Louise3.jpg'
                   alt=""
                   className="cookFoodlImg"
                 />
@@ -178,7 +178,7 @@ const CustomerBooking = () => {
               <div className="cookFoodImgWrapper" >
                 <img
                   // onClick={() => handleOpen(i)}
-                  src='/images/bao.jpg'
+                  src='/images/Louise4.jpg'
                   alt=""
                   className="cookFoodlImg"
                 />
@@ -187,7 +187,7 @@ const CustomerBooking = () => {
               <div className="cookFoodImgWrapper" >
                 <img
                   // onClick={() => handleOpen(i)}
-                  src='/images/bao.jpg'
+                  src='/images/Louise5.jpg'
                   alt=""
                   className="cookFoodlImg"
                 />
@@ -197,7 +197,7 @@ const CustomerBooking = () => {
               <div className="cookFoodImgWrapper" >
                 <img
                   // onClick={() => handleOpen(i)}
-                  src='/images/bao.jpg'
+                  src='/images/Louise6.jpg'
                   alt=""
                   className="cookFoodlImg"
                 />

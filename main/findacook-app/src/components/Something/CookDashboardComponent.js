@@ -102,8 +102,8 @@ const CookDashboard = () => {
   latlng.push(userLng)
   }
 
-  var schedule = [{title: "Brian Cullen", start: "2023-02-28 15:00", lat: 54.001024 , lng: -6.386164},
-  {title: "Joseph Bell", start: "2023-02-24 12:00", lat: 54.002736 , lng: -6.422944}
+  var schedule = [{title: "Brian Cullen", start: "2023-06-09 11:00", lat: 54.001024 , lng: -6.386164},
+  {title: "Joseph Bell", start: "2023-06-02 20:00", lat: 54.002736 , lng: -6.422944}
                   ]
 
     return (
@@ -127,18 +127,18 @@ const CookDashboard = () => {
                        <strong>Full Name :</strong>{" "}
                        <span class="m-l-15">{firstname} {lastname}</span>
                      </p>
-                     <p class="text-muted font-13">
+                     {/* <p class="text-muted font-13">
                        <strong>Mobile :</strong>
                        <span class="m-l-15"></span>
-                     </p>
+                     </p> */}
                      <p class="text-muted font-13">
                        <strong>Email :</strong>{" "}
                        <span class="m-l-15">{email}</span>
                      </p>
                      <p class="text-muted font-13">
-                       <strong>Location :</strong> <span class="m-l-15">KH</span>
+                       <strong>Location :</strong> <span class="m-l-15">{address}</span>
                      </p>
-                     <p class="text-muted font-13">
+                     {/* <p class="text-muted font-13">
                        <strong>Cuisine(s) :</strong>{" "}
                        <span class="m-l-5">
                          <span
@@ -147,7 +147,7 @@ const CookDashboard = () => {
                          ></span>
                          <span>{specialities}</span>{" "}
                        </span>
-                     </p>
+                     </p> */}
                    </div>
                  </div>
                </div>
@@ -158,6 +158,11 @@ const CookDashboard = () => {
                    <div className="cook-img-container">
                      <div className="cook-dash-img">
                        <img src={profile} alt="" />
+                       <img
+                  src='/images/HomeCook.jpg'
+                  alt=""
+                  className="cookFoodlImg"
+                />
                      </div>
                    </div>
                  </div>

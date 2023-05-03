@@ -98,7 +98,7 @@ class MapContainer extends React.Component {
     onClick={this.onMapClicked}
       // google={props.google}
       google={this.props.google}
-      style={{width: "50%", height:"50%"}}
+      style={{width: "50%", height:"50%", left: "10%"}}
       zoom={14}
       initialCenter={{
         lat: this.props.data[0],

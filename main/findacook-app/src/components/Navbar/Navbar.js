@@ -52,7 +52,7 @@ function Navbar() {
             {/* <img src="../images/logo-new-edit-01.png"/> */}
 			<nav ref={navRef}>
 
-<h5>{firstname}</h5>
+<h5></h5>
 				<a href="/home">Discover Cooks</a>
 				<a href="/#">My Bookings</a>
 				{/* <a href="/#">Temi</a> */}
