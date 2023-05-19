@@ -26,6 +26,10 @@ npm install --save @fortawesome/react-fontawesome
 npm install @mui/material @emotion/react @emotion/styled
 npm i autosuggest-highlight
 npm install react-redux
+npm install react-big-calendar --legacy-peer-deps
+npm install react-datepicker --legacy-peer-deps
+npm install date-fns --save
+
 ```
 
 #### 3. Run Backend
