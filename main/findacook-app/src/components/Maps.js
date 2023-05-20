@@ -76,7 +76,7 @@ class MapContainer extends React.Component {
     var i = 0;
     var latlng = [];
     const schedulelist = this.props.schedule
-    // console.log(schedulelist.title)
+    //console.log(schedulelist.title)
     schedulelist.forEach(schedule => {
       // latlng.push(schedule.lat)
       // latlng.push(schedule.lng)

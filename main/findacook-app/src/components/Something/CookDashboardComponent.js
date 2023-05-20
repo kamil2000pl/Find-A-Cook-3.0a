@@ -103,7 +103,7 @@ const CookDashboard = () => {
   }
 
   var schedule = [{title: "Brian Cullen", start: "2023-06-09 11:00", lat: 54.001024 , lng: -6.386164},
-  {title: "Joseph Bell", start: "2023-06-02 20:00", lat: 54.002736 , lng: -6.422944}
+  {title: "Temi Owolabi", start: "2023-06-02 20:00", lat: 54.002736 , lng: -6.422944}
                   ]
 
     return (
