@@ -1,0 +1,1 @@
+export const GET_SCHEDULES = 'GET_SCHEDULES';

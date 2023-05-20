@@ -3,6 +3,7 @@ import { Modal, Carousel, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import "./Cook.css";
+import AverageReview from '../Review/AverageReview';
 
 const Cook = ({ cook, bookingDate }) => {
 
@@ -20,7 +21,7 @@ const Cook = ({ cook, bookingDate }) => {
         <h3>{cook.cook_first_name}</h3>
         <img src="../images/cook1.jpg" alt="User Profile Picture" className='cookImg' />
         <div className="smallText">Cuisine: {cook.specialties} </div>
-        <div className="smallText">Rating: ⭐⭐⭐⭐ (123 Reviews)</div>
+        <div className="smallText">Rating: <AverageReview cookId={cook._id} /></div>
       
         <Link to={`/cook/${cook._id}/${bookingDate}`}>
         <button onClick={handleShow}>Book Now</button>

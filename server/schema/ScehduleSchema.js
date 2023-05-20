@@ -22,10 +22,6 @@ const schedules = new mongoose.Schema({
   schedule_end: {
     type: Date,
     required: true,
-  },
-  schedule_address: {
-    type: String,
-    required: true,
   }
 });
 

@@ -163,7 +163,7 @@ const sendVerificationEmail = ({_id, user_email}, res) => {
 
 router.get("/verify/:userId/:uniqueString", (req, res) => {
     let {userId, uniqueString} = req.params;
-    const currentUrl = "http://localhost:3000";
+    const currentUrl = "http://localhost:3001";
 
     UserVerification
     .find({userId})

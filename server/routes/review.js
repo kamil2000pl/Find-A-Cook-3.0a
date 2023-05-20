@@ -15,6 +15,7 @@ const Review = require("../schema/RatingSchema");
 //     });
 
 router.get('/:reviewId', reviewController.read);
+router.get('/reviews', reviewController.readAll);
 
 
     module.exports = router;

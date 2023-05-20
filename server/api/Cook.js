@@ -9,6 +9,7 @@ const MenuCategorySchema = require('./../models/MenuCategory');
 const MenuItemSchema = require('./../models/Menu')
 const Review = require('./../models/Review')
 const multer = require('multer')
+const Schedule = require('../models/Schedule');
 
 
 // const storage = multer.diskStorage({
@@ -19,7 +20,6 @@ const multer = require('multer')
 //       cb(null, Date.now() + '-' + file.originalname);
 //     },
 //   });
-  
 //   const upload = multer({ storage: storage });
 
 
@@ -176,6 +176,7 @@ router.get("/cookinfo", (req, res) => {
       special: `${cook.specialties}`,
       descrip: `${cook.description}`,
       profile: `${cook.profile_picture}`,
+            address: `${cook.cook_address}`,
       bio: `${cook.cook_bio}`,
       email: `${cook.cook_email}`
     })
@@ -187,23 +188,23 @@ router.get("/cookinfo", (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  try {
-    const cooks = await Cook.find({}, { cook_first_name: 1, cook_last_name: 1, profile_picture: 1, application_status: 1, cook_bio: 1, description: 1, _id: 1, specialties: 1 });
-
-    res.json({
-      status: "SUCCESS",
-      cooks: cooks,
-    });
-  } catch (err) {
-    res.json({
-      status: "FAILED",
-      message: "Error retrieving cooks",
-      error: err,
-    });
-  }
-});
-
+router.get("/allcooks", async (req, res) => {
+    try {
+      const cooks = await Cook.find({}, { cook_first_name: 1, cook_last_name: 1, profile_picture: 1, application_status: 1, cook_address: 1, cook_bio: 1, description: 1, _id: 1, specialties: 1 });
+  
+      res.json({
+        status: "SUCCESS",
+        cooks: cooks,
+      });
+    } catch (err) {
+      res.json({
+        status: "FAILED",
+        message: "Error retrieving cooks",
+        error: err,
+      });
+    }
+  });
+  
 
 router.get('/menucategories', async (req, res) => {
   try {
@@ -335,18 +336,51 @@ router.get("/allreviews", async (req, res) => {
     });
   }
 });
+// router.get('/reviews/:cookId', async (req, res) => {
+//   try {
+//     const reviews = await Review.find({}, { rating_value: 1, review_title: 1, review_body: 1, date: 1, user_id: 1, cook_id: 1, _id: 1, filename: 1 });
+
+//     const cookId = parseInt(req.query.cookId);
+//     console.log(cookId);
+
+//     if (!cookId) {
+//       res.status(400).send({ error: 'Please provide a cookId.' });
+//       return;
+//     }
+
+//     const filteredReviews = reviews.filter(review => review.cook_id === cookId);
+    
+
+
+
+//     res.json({
+//       status: "SUCCESS",
+//       reviews: filteredReviews,
+//     });
+
+
+
+//   } catch (err) {
+//     res.json({
+//       status: "FAILED",
+//       message: "Error retrieving reviews",
+//       error: err,
+//     });
+//   }
+
+// });
 
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, "./server/api/uploads/");
   },
-  filename:(req, file, callback) =>{
+  filename: (req, file, callback) => {
     callback(null, file.originalname);
   }
 })
- 
-const upload1 = multer({storage: storage});
+
+const upload1 = multer({ storage: storage });
 
 router.post('/createreview', upload1.single('img'), async (req, res) => {
   // console.log(req.body);
@@ -385,64 +419,129 @@ router.post('/createreview', upload1.single('img'), async (req, res) => {
 });
 
 
-  router.post('/uploadprofilepicture', upload.single('profile_picture'), async (req, res) => {
-    const cook = req.session.cook;
-    
-    if (cook) {
-      const profile_picture = req.file.path;
-  
-      try {
-        await Cook.updateOne({ _id: cook._id }, { $set: { profile_picture } });
-        res.json({
-          status: 'SUCCESS',
-          message: 'Profile picture uploaded successfully',
-          imagePath: profile_picture,
-        });
-      } catch (err) {
-        res.json({
-          status: 'FAILED',
-          message: 'Error uploading profile picture',
-          error: err,
-        });
-      }
-    } else {
+router.post('/uploadprofilepicture', upload.single('profile_picture'), async (req, res) => {
+  const cook = req.session.cook;
+
+  if (cook) {
+    const profile_picture = req.file.path;
+
+    try {
+      await Cook.updateOne({ _id: cook._id }, { $set: { profile_picture } });
+      res.json({
+        status: 'SUCCESS',
+        message: 'Profile picture uploaded successfully',
+        imagePath: profile_picture,
+      });
+    } catch (err) {
       res.json({
         status: 'FAILED',
-        message: 'Not authorized to upload profile picture',
+        message: 'Error uploading profile picture',
+        error: err,
       });
     }
-  });
-  
-  
+  } else {
+    res.json({
+      status: 'FAILED',
+      message: 'Not authorized to upload profile picture',
+    });
+  }
+});
 
 
 
 
-  
-  router.post('/verify_cook', async (req, res) => {
-    // Extract cook email from the request body
-    const { cook_email } = req.body;
-    if (!cook_email) {
-      // Return error if cook email is not provided
-      res.status(400).json({ success: false, message: 'Cook email is required' });
+
+
+
+router.post('/verify_cook', async (req, res) => {
+  // Extract cook email from the request body
+  const { cook_email } = req.body;
+  if (!cook_email) {
+    // Return error if cook email is not provided
+    res.status(400).json({ success: false, message: 'Cook email is required' });
+  } else {
+    // Check if the cook email exists in the database
+    const cook = await Cook.findOne({ email: cook_email });
+    if (cook) {
+      // Update the verified field of the cook to true
+      await Cook.updateOne({ cook_email: cook_email }, { $set: { verified: true } });
+      // Return success message if cook email is found and verified is updated to true
+      res.status(200).json({ success: true, message: 'Cook has been verified!' });
     } else {
-      // Check if the cook email exists in the database
-      const cook = await Cook.findOne({ email: cook_email });
-      if (cook) {
-        // Update the verified field of the cook to true
-        await Cook.updateOne({ cook_email: cook_email },  {$set:{ verified: true }});
-        // Return success message if cook email is found and verified is updated to true
-        res.status(200).json({ success: true, message: 'Cook has been verified!' });
-      } else {
-        // Return error if cook email is not found in the database
-        res.status(400).json({ success: false, message: 'Cook not found in the database' });
-      }
+      // Return error if cook email is not found in the database
+      res.status(400).json({ success: false, message: 'Cook not found in the database' });
     }
-  });
+  }
+});
+
+
+
 
 
   
+//Schedule stuff
+
+router.post("/addschedules", async (req,res) => {
+  try {
+    const {schedule_title, schedule_start, schedule_end} = req.body;
+    if (!schedule_title || !schedule_start || !schedule_end){
+      return res.status(400).send('All fields are required');
+    }
+    const schedule = new Schedule({
+        schedule_title,
+        schedule_start,
+        schedule_end
+    });
+
+    await schedule.save();
+
+    res.json({
+        status: "SUCCESS",
+        message: "successfully saved schedule",
+        schedule
+    });
+  } catch (err) {
+    res.json({
+        status: "FAILED",
+        message: "An error occurred!",
+        error: err.message
+    });
+  }
+});
+
+router.get("/schedules", async (req, res) => {
+  try {
+    const schedules = await Schedule.find({}, {schedule_title: 1, schedule_start: 1, schedule_end: 1});
+    res.json({
+      status: "SUCCESS",
+      schedules
+    });
+  } catch (err) {
+    res.json({
+      status: "FAILED",
+      message: "Error retrieving schedules",
+      error: err.message,
+    });
+  }
+});
+
+   /*console.log(req.session)
+  const schedule = req.session.schedule;
+  if(schedule) {
+      res.json({
+          status: "SUCCESS",
+          title: `${schedule.schedule_title}`,
+          start: `${schedule.schedule_start}`,
+          end: `${schedule.schedule_end}`
+      })
+  } else {
+      res.json({
+          status: "FAILED",
+          message: "Error finding schedule"
+      })
+  }*/
   
+
 
 module.exports = router;
 // router.post('cooklogout', (req, res) => {

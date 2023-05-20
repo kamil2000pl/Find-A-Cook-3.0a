@@ -15,3 +15,15 @@ exports.read = async (req, res) => {
       });
     }
   };
+
+  exports.readAll = async (req, res) => {
+    try {
+      const reviews = await Review.find({});
+      res.status(200).json(reviews);
+    } catch (err) {
+      console.log('Review ReadAll Error: ', err);
+      res.status(500).json({
+        errorMessage: 'Please try again later',
+      });
+    }
+  };
