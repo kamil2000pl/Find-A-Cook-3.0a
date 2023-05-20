@@ -20,7 +20,6 @@ const Schedule = require('../models/Schedule');
 //       cb(null, Date.now() + '-' + file.originalname);
 //     },
 //   });
-
 //   const upload = multer({ storage: storage });
 
 
