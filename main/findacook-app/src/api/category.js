@@ -24,7 +24,7 @@ export const createCategory = async (formData) => {
 
 export const getCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/category');
+      const response = await axios.get('https://findacook-web.onrender.com/api/category');
       console.log('Server Response: ', response.data);
       return response.data;
     } catch (error) {

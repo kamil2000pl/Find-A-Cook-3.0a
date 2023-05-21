@@ -30,7 +30,7 @@ function Navbar() {
     const [firstname, setFirstName] = useState("")
     axios.defaults.withCredentials = true
     useEffect(()=> {
-        axios.get('http://localhost:5001/user/userinfo')
+        axios.get('https://findacook-web.onrender.com/api/user/userinfo')
         .then((res) => {
             setFirstName(res.data.message);
         })

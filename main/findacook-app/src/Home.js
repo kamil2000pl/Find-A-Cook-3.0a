@@ -8,7 +8,7 @@ const Home = () => {
     const [secondname, setSecondName] = useState("")
     axios.defaults.withCredentials = true
     useEffect(()=> {
-        axios.get('http://localhost:5001/user/userinfo')
+        axios.get('https://findacook-web.onrender.com/api/user/userinfo')
         .then((res) => {
             setFirstName(res.data.fname);
             setSecondName(res.data.sname);

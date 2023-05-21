@@ -9,7 +9,7 @@ const Topbar = () => {
   const [profile, setProfile] = useState("");
   axios.defaults.withCredentials = true
   useEffect(()=> {
-      axios.get('http://localhost:5001/cook/cookinfo')
+      axios.get('https://findacook-web.onrender.com/api/cook/cookinfo')
       .then((res) => {
           setFirstName(res.data.firstn);
           setProfile(res.data.profile);

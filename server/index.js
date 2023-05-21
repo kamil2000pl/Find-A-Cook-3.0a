@@ -12,7 +12,7 @@ const filterRoutes = require('./routes/filter');
 // const subscriptionController = require('./routes/subscribe')
 const mongoose = require('mongoose');
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use('/api/category', categoryRoutes);
 // app.use('/api/subscribe', subscriptionController);
@@ -125,7 +125,7 @@ const connectDB = async () => {
 
 connectDB();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 10000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 // const mysql = require("mysql");

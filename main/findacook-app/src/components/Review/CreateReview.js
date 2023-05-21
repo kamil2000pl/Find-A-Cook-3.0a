@@ -65,7 +65,7 @@ const CreateReview = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         axios
-            .post('http://localhost:5001/cook/createreview', review, filename)
+            .post('https://findacook-web.onrender.com/api/cook/createreview', review, filename)
             .then((response) => {
                 console.log("response received", response.data);
             })
