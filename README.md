@@ -15,7 +15,7 @@ This project was developed by Conor McGuire, Kamil Jozefowicz, Desmond Madden, T
 
 #### 1. Clone Repo
 ```
-git git@github.com:Team7-Collab-Project/Find-A-Cook.git
+git git@github.com:kamil2000pl/Find-A-Cook-3.0a.git
 ```
 
 #### 2. Install Dependencies
@@ -40,10 +40,15 @@ cd server
 npm install 
 nodemon index.js
 ```
+#### Run Secondary Server File
+```
+cd server
+nodemon server.js
+```
 
 #### 4. Run Frontend
 ```
-cd client
+cd main/findacook-app
 npm install 
 npm start
 ```
